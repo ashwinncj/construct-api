@@ -8,20 +8,17 @@ class Suppliersmodel extends CI_Model {
         $this->load->database();
     }
 
-    public function add($name, $contact_name, $email, $address, $phone) {
+    public function add($user_id, $name, $contact_name, $email, $address, $phone) {
         $data = array(
             'name' => $name,
+            'user_id' => $user_id,
             'email' => $email,
             'contact_name' => $contact_name,
             'address' => $address,
             'phone' => $phone
         );
-        if (!$this->exists($email)) {
-            $this->db->insert('suppliers', $data);
-            return TRUE;
-        } else {
-            return FALSE;
-        }
+        $this->db->insert('suppliers', $data);
+        return TRUE;
     }
 
     public function exists($email) {

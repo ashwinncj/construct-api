@@ -23,6 +23,7 @@ class Auth extends CI_Model {
         $now->add(new DateInterval('PT2H'));
         $token['expiry'] = $now->format('Y-m-d H:i:s');
         $token['token'] = sha1($this->salt . $token['expiry'] . $email) . sha1($this->salt . $email);
+        $token['success']=true;
         $this->register_tokens($email, $token['token'], $token['expiry']);
         return $token;
     }
@@ -83,6 +84,16 @@ class Auth extends CI_Model {
         } else {
             return FALSE;
         }
+    }
+
+    public function getuser($token) {
+        $this->db->from('user_credentials');
+        $this->db->where('token', $token);
+        $query = $this->db->get();
+        foreach ($query->result() as $row) {
+            $user = $row;
+        }
+        return $user;
     }
 
     public function renew_token($token) {

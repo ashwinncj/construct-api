@@ -19,7 +19,7 @@ class Suppliers extends CI_Controller {
 
     public function add() {
         $token = $this->input->post('token');
-        $json['token']=$token;
+        $json['token'] = $token;
         if ($this->auth->verify_token($token)) {
             $this->add_supplier();
         } else {
@@ -30,6 +30,8 @@ class Suppliers extends CI_Controller {
     }
 
     private function add_supplier() {
+        $token = $this->input->post('token');
+        $user_id = $this->auth->getuser($token)->id;
         $request_type = $this->input->server('REQUEST_METHOD');
         $name = $this->input->post('name');
         $contact_name = $this->input->post('contact_name');
@@ -38,7 +40,7 @@ class Suppliers extends CI_Controller {
         $phone = $this->input->post('phone');
 
         if ($request_type == 'POST' && $email != NULL && $name != NULL && $contact_name != NULL && $address != NULL && $phone != NULL) {
-            if ($this->suppliersmodel->add($name, $contact_name, $email, $address, $phone)) {
+            if ($this->suppliersmodel->add($user_id, $name, $contact_name, $email, $address, $phone)) {
                 $json['success'] = TRUE;
                 $json['message'] = 'Supplier successfully registered!';
                 echo json_encode($json);
