@@ -28,4 +28,15 @@ class Suppliersmodel extends CI_Model {
         return $records >= 1 ? TRUE : FALSE;
     }
 
+    public function get($user_id) {
+        $this->db->from('suppliers');
+        $this->db->where('user_id', $user_id);
+        $query = $this->db->get();
+
+        foreach ($query->result() as $row) {
+            $suppliers[] = $row;
+        }
+        return $suppliers;
+    }
+
 }

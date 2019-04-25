@@ -23,7 +23,7 @@ class Auth extends CI_Model {
         $now->add(new DateInterval('PT2H'));
         $token['expiry'] = $now->format('Y-m-d H:i:s');
         $token['token'] = sha1($this->salt . $token['expiry'] . $email) . sha1($this->salt . $email);
-        $token['success']=true;
+        $token['success'] = true;
         $this->register_tokens($email, $token['token'], $token['expiry']);
         return $token;
     }
@@ -79,6 +79,8 @@ class Auth extends CI_Model {
                 $expiry = new DateTime($row->expiry);
                 if ($expiry > new DateTime()) {
                     return TRUE;
+                } else {
+                    return false;
                 }
             }
         } else {

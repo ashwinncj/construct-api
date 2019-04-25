@@ -3,11 +3,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 header('Content-Type: application/json');
 
-class Suppliers extends CI_Controller {
+class Profile extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('suppliersmodel');
+        $this->load->model('profilemodel');
         $this->load->model('auth');
     }
 
@@ -17,11 +17,11 @@ class Suppliers extends CI_Controller {
         echo json_encode($json);
     }
 
-    public function add() {
+    public function update() {
         $token = $this->input->post('token');
         $json['token'] = $token;
         if ($this->auth->verify_token($token)) {
-            $this->add_supplier();
+            $this->update_profile();
         } else {
             $json['success'] = FALSE;
             $json['error'] = 'Unauthorized Token!';
@@ -29,24 +29,23 @@ class Suppliers extends CI_Controller {
         }
     }
 
-    private function add_supplier() {
+    private function update_profile() {
         $token = $this->input->post('token');
         $user_id = $this->auth->getuser($token)->id;
         $request_type = $this->input->server('REQUEST_METHOD');
-        $name = $this->input->post('name');
-        $contact_name = $this->input->post('contact_name');
-        $email = $this->input->post('email');
+        $company_name = $this->input->post('company_name');
         $address = $this->input->post('address');
         $phone = $this->input->post('phone');
+        $contact_name = $this->input->post('contact_name');
 
-        if ($request_type == 'POST' && $email != NULL && $name != NULL && $contact_name != NULL && $address != NULL && $phone != NULL) {
-            if ($this->suppliersmodel->add($user_id, $name, $contact_name, $email, $address, $phone)) {
+        if ($request_type == 'POST' && $user_id != '' && $company_name != NULL && $address != NULL && $contact_name != NULL && $phone != NULL) {
+            if ($this->profilemodel->update($user_id, $company_name, $address, $phone, $contact_name)) {
                 $json['success'] = TRUE;
-                $json['message'] = 'Supplier successfully registered!';
+                $json['message'] = 'Profile updated!';
                 echo json_encode($json);
             } else {
                 $json['success'] = FALSE;
-                $json['error'] = 'User email already exists!';
+                $json['error'] = 'Error while updating the profile!';
                 echo json_encode($json);
             }
         } else {
@@ -59,7 +58,7 @@ class Suppliers extends CI_Controller {
         $token = $this->input->post('token');
         $user_id = $this->auth->getuser($token)->id;
         if ($this->auth->verify_token($token)) {
-            $json['suppliers'] = $this->suppliersmodel->get($user_id);
+            $json['profile'] = $this->profilemodel->get($user_id);
             $json['success'] = true;
             echo json_encode($json);
         } else {
