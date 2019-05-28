@@ -80,4 +80,5 @@ class Rfq extends CI_Controller {
         }
     }
 
+    //Write a new function here to get all the RFQs of single user
 }
