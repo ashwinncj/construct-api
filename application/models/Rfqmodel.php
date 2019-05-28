@@ -23,13 +23,7 @@ class Rfqmodel extends CI_Model {
         return TRUE;
     }
 
-    public function exists($email) {
-        $this->db->from('suppliers');
-        $this->db->where('email', $email);
-        $records = $this->db->count_all_results();
-        return $records >= 1 ? TRUE : FALSE;
-    }
-
+    //Public function to get the details of the single RFQ identified by ID
     public function get($user_id, $id) {
         $this->db->from('rfq');
         $this->db->where('user_id', $user_id);
@@ -40,6 +34,17 @@ class Rfqmodel extends CI_Model {
             $rfq[] = $row;
         }
         return $rfq;
+    }
+
+    //Public function to retrieve all the RFQs of the single user.
+    public function get_all($user_id) {
+        $this->db->from('rfq'); //From the table 'rfq'
+        $this->db->where('user_id', $user_id); //Select all the records with the given UserID
+        $query = $this->db->get();
+        foreach ($query->result() as $row) {
+            $rfq[] = $row;
+        }
+        return $rfq; //Return all the RFQs found belonging to the userID
     }
 
 }

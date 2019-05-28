@@ -81,4 +81,19 @@ class Rfq extends CI_Controller {
     }
 
     //Write a new function here to get all the RFQs of single user
+    public function getall() {
+        $token = $this->input->post('token');
+        $user_id = $this->auth->getuser($token)->id;
+        //Verify the token of the user before continuing to access the RFQ from the database.
+        if ($this->auth->verify_token($token)) {
+            $json['rfq'] = $this->rfqmodel->get_all($user_id);
+            $json['success'] = true;
+            echo json_encode($json);
+        } else {
+            $json['success'] = FALSE;
+            $json['error'] = 'Unauthorized Token!';
+            echo json_encode($json);
+        }
+    }
+
 }
