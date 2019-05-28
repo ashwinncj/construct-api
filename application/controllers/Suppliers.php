@@ -13,7 +13,6 @@ class Suppliers extends CI_Controller {
 
     public function index() {
         $json['error'] = 'Wrong URL endpoint.';
-        $json['message'] = 'Supplier successfully registered!';
         echo json_encode($json);
     }
 
