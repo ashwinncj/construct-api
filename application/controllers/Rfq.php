@@ -41,7 +41,7 @@ class Rfq extends CI_Controller {
         $request_type = $this->input->server('REQUEST_METHOD'); //Check for the request method
         $name = $this->input->post('name');
         $due_date = $this->input->post('due_date');
-        $attachment = 'Attachment URL to be updated here...';
+        $attachment = $this->input->post('attachment');
         $rfq_details = $this->input->post('rfq_details');
 
         //The add request to be processed only if request type is POST and all the fields are set.

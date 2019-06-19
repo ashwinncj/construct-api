@@ -11,7 +11,7 @@ class Rfqmodel extends CI_Model {
     }
 
     //Function to insert the RFQ deatails into the database
-    public function add($user_id, $name, $due_date, $attachment, $rfq_details) {
+    public function add($user_id, $name, $due_date, $attachment = '', $rfq_details = '') {
         $data = array(
             'name' => $name,
             'user_id' => $user_id,

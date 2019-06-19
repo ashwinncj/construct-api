@@ -6,7 +6,7 @@ class Auth extends CI_Model {
 
     public function __construct() {
         parent::__construct();
-        date_default_timezone_set("Asia/Calcutta");
+        date_default_timezone_set("UTC");
         $this->load->database();
     }
 
@@ -99,7 +99,7 @@ class Auth extends CI_Model {
     }
 
     public function renew_token($token) {
-        
+
     }
 
 }
