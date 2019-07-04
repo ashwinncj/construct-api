@@ -81,6 +81,7 @@ class Rfq extends CI_Controller {
     }
 
     //Write a new function here to get all the RFQs of single user.
+    //Get all RFQs for selected user.
     public function getall() {
         $token = $this->input->post('token');
         $user_id = $this->auth->getuser($token)->id;
