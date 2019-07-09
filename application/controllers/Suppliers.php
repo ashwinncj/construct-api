@@ -54,6 +54,7 @@ class Suppliers extends CI_Controller {
         }
     }
 
+    //Function to get all the suppliers who belong to the logged in user.
     public function get() {
         $token = $this->input->post('token');
         $user_id = $this->auth->getuser($token)->id;
